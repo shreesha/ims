@@ -9,12 +9,12 @@ import java.util.List;
 @Data
 public class IndentView {
 
-    private Long id;
+    private int id;
     private ImsConstants.IndentTypes type;
     private String remarks;
     private String status;
-    private Date  deliveryDate;
-    private int locationId;
+    private String  deliveryDate;
+    private Integer locationId;
     private String createdBy;
     private Date createdDate;
     private String  modifiedBy;

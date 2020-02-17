@@ -17,4 +17,6 @@ public class UserView {
     private String  modifiedBy;
     private Date modifiedDate;
     private String password;
+    private String departmentName;
+    private int departmentId;
 }

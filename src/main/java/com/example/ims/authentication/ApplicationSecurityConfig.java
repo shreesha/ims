@@ -23,6 +23,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthRequestFilter authRequestFilter;
 
+    @Autowired
+    FilterExceptionCatcher filterExceptionCatcher;
+
     //  Use the overload for configure where we return a static user
 
     @Override
@@ -47,7 +50,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/api/v1/users/login", "/api/v1/users/change_password")
+                .antMatchers("/api/v1/users/login",
+                        "/api/v1/users/change_password","/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -58,5 +67,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
         //  AuthRequestFilter must be processed before the default UsernamePasswordAuthenticationFilter
         httpSecurity.addFilterBefore(authRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.addFilterBefore( filterExceptionCatcher, AuthRequestFilter.class);
     }
 }

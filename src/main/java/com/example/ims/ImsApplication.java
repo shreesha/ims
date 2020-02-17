@@ -3,6 +3,7 @@ package com.example.ims;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -14,6 +15,7 @@ import java.util.Collections;
 
 @SpringBootApplication
 @EnableSwagger2
+@CrossOrigin(origins = "*")
 public class ImsApplication {
 
 	public static void main(String[] args) {

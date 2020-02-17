@@ -7,17 +7,22 @@ import com.example.ims.constants.ImsConstants;
 
 import com.example.ims.services.UserService;
 import com.example.ims.views.AuthUser;
+import com.example.ims.views.DepartmentView;
 import com.example.ims.views.UserView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 @RequestMapping(ImsConstants.ApiPaths.USER_ROOT)
 public class UserController {
 
@@ -36,21 +41,36 @@ public class UserController {
     @GetMapping
     public ResponseEntity getListOfUsers(@RequestParam int pageNo, @RequestParam int pageSize, @RequestParam String searchParam){
         //get List of Users
-
-        return ResponseEntity.ok().body(userService.getAllUsers(1,10,""));
+        List<UserView> userList;
+        try {
+            userList = userService.getAllUsers(pageNo,pageSize,searchParam);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+        return ResponseEntity.ok().body(userList);
     }
 
     @GetMapping(ImsConstants.ApiPaths.USER_ID)
     public ResponseEntity getUserForId(@PathVariable int userId){
         //get User for the given id
-
-        return ResponseEntity.ok().body(new UserView());
+        UserView user;
+        try {
+            user = userService.getUserForId(userId);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+        return ResponseEntity.ok().body(user);
     }
 
     @PostMapping
     public ResponseEntity createUser(@RequestBody UserView userView){
         //Create a new User
-        UserView user = userService.registerUser(userView, 1);
+        UserView user;
+        try {
+            user = userService.registerUser(userView);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
         return ResponseEntity.ok().body(user);
     }
 
@@ -78,8 +98,6 @@ public class UserController {
         catch (BadCredentialsException e) {
             throw new Exception("Incorrect userid or password", e);
         }
-
-        //  If we reached this far, we can ask the JwtUtils to provide us the token
         final UserDetails userDetails = appUserDetailService
                 .loadUserByUsername(user.getUsername());
 
@@ -92,6 +110,30 @@ public class UserController {
     public ResponseEntity changePassword(@RequestBody UserView UserView){
         //Create a new User
         return ResponseEntity.ok().body("OK");
+    }
+
+    @PostMapping(ImsConstants.ApiPaths.DEPARTMENTS)
+    public ResponseEntity createDepartment(@RequestBody DepartmentView departmentView){
+        //Create a new User
+        DepartmentView department;
+        try {
+            department = userService.createDepartment(departmentView, 1);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+        return ResponseEntity.ok().body(department);
+    }
+
+    @GetMapping(ImsConstants.ApiPaths.DEPARTMENTS)
+    public ResponseEntity getListOfDepartments(@RequestParam int pageNo, @RequestParam int pageSize, @RequestParam String searchParam){
+        //get List of Dep
+        List<DepartmentView> departmentList;
+        try {
+             departmentList = userService.getListOfDepartment(pageNo, pageSize, searchParam);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+        return ResponseEntity.ok().body(departmentList);
     }
 
 

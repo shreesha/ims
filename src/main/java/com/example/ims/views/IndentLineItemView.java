@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class IndentLineItemView {
 
-    private String productId;
-    private Long indentId;
+    private Integer productId;
+    private Integer indentId;
     private int quantity;
     private Double unitPrice;
 

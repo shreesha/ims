@@ -1,6 +1,7 @@
 package com.example.ims.authentication;
 
 import com.example.ims.authentication.AppUserDetailService;
+import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -62,6 +63,8 @@ public class AuthRequestFilter extends OncePerRequestFilter {
                 usernamePasswordAuthenticationToken
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            }else{
+                throw new JwtException("Invalid Jwt token or token expired");
             }
         }
 

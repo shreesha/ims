@@ -28,6 +28,9 @@ public class ImsConstants {
         public static final String USER_ID ="/{userId}";
         public static final String LOGIN ="/login";
         public static final String CHANGE_PASSWORD ="/change_password";
+        public static final String DEPARTMENTS ="/departments";
+        public static final String DEPARTMENT_ID ="/departments/{department_id}";
+
 
         public static final String ENTERPRISE_ROOT="api/v1/enterprices";
         public static final String ENTERPRICE_ID ="/{enterpriceId}";
@@ -37,5 +40,22 @@ public class ImsConstants {
         INCOMING,
         OUTGOING;
 
+    }
+
+    public enum IndentStatuses {
+        PENDING,
+        DELIVERED;
+
+    }
+
+    public enum ProductStatus{
+        ACTIVE,
+        DELETED
+    }
+
+    public enum EnterpriseTypes{
+        SUPPLIER,
+        DISTRIBUTOR,
+        CLIENT
     }
 }

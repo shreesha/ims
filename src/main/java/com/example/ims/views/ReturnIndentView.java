@@ -8,11 +8,11 @@ import java.util.List;
 @Data
 public class ReturnIndentView {
 
-    private Long id;
+    private int id;
     private ImsConstants.IndentTypes type;
     private String remarks;
     private String status;
-    private Date deliveryDate;
+    private String deliveryDate;
     private long indentId;
     private String createdBy;
     private Date createdDate;

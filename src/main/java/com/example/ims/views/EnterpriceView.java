@@ -13,4 +13,5 @@ public class EnterpriceView {
     private String createdBy;
     private String modifiedBy;
     private String modifiedDate;
+    private String type;
 }
